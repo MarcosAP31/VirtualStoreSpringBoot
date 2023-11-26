@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<body>
+	<div class="container mt-4">
+		<div class="col-sm-6">
+			<form th:action="@{/save}" th:object=${client} method="POST">
+				<div class="card">
+					<div class="card-header">
+						<h3>Modulo Cliente</h3>
+					</div>
+					<div class="card-body">
+						
+						<div class="form-group">
+							<label>Id</label>
+							<input th:field="*{client_id}" type="text" class="form-control" readonly="readonly" />
+						</div>
+						<div class="form-group">
+							<label>Nombres</label>
+							<input th:field="*{name}" type="text" class="form-control" placeholder="Ingrese nombres" />
+						</div>
+						<div class="form-group">
+							<label>Apellidos</label>
+							<input th:field="*{lastname}" type="text" class="form-control"
+								placeholder="Ingrese apellidos" />
+						</div>
+						<div class="form-group">
+							<label>Fecha de nacimiento</label>
+							<input th:field="*{birthday}" type="date" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="sexo">Sexo</label>
+							<select th:field="*{sex}" class="form-control" id="sexo">
+								<option value="masculino">Masculino</option>
+								<option value="femenino">Femenino</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Departamento</label>
+							<input th:field="*{department}" type="text" class="form-control"
+								placeholder="Ingrese departamento" />
+						</div>
+						<div class="form-group">
+							<label>Provincia</label>
+							<input th:field="*{province}" type="text" class="form-control"
+								placeholder="Ingrese provincia" />
+						</div>
+						<div class="form-group">
+							<label>Distrito</label>
+							<input th:field="*{district}" type="text" class="form-control"
+								placeholder="Ingrese distrito" />
+						</div>
+						<div class="form-group">
+							<label>Dirección</label>
+							<input th:field="*{direction}" type="text" class="form-control"
+								placeholder="Ingrese direccion" />
+						</div>
+						<div class="form-group">
+							<label>Teléfono</label>
+							<input th:field="*{phone}" type="text" class="form-control"
+								placeholder="Ingrese telefono"/>
+						</div>
+						<div class="form-group">
+							<label>Correo</label>
+							<input th:field="*{email}" type="text" class="form-control" placeholder="Ingrese correo" />
+						</div>
+					</div>
+					<div class="card-footer">
+						<input type="submit" value="Guardar" class="btn btn-success">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>

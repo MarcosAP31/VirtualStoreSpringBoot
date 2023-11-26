@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Title</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="../panel/style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.11.0/docxtemplater.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand navbar-light bg-light">
+		<div class="nav navbar-nav">
+			<a class="nav-item nav-link active" href="#">Administrador del sitio web <span
+					class="sr-only">(current)</span></a>
+			<a class="nav-item nav-link" th:href="@{/clients}">Clientes</a>
+			<a class="nav-item nav-link" th:href="@{/suppliers}">Proveedores</a>
+			<a class="nav-item nav-link" th:href="@{/products}">Productos</a>
+		</div>
+	</nav>
+
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">Formulario</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="formSupplier">
+
+						<div class="form-group">
+							<label for="txtSupplierId">ID:</label>
+							<input type="text" require readonly class="form-control" id="txtSupplierId"
+							 placeholder="ID">
+						</div>
+
+						<div class="form-group">
+							<label for="txtRUC">RUC:</label>
+							<input type="text" required class="form-control" name="txtRUC" id="txtRUC"
+								placeholder="Nombres">
+						</div>
+
+						<div class="form-group">
+							<label for="txtBusinessName">Nombre Empresarial:</label>
+							<input type="text" required class="form-control" name="txtBusinessName" id="txtBusinessName"
+								placeholder="Nombre Empresarial">
+						</div>
+
+						<div class="form-group">
+							<label for="txtTradeName">Nombre Comercial:</label>
+							<input type="text" required class="form-control" name="txtTradeName" id="txtTradeName"
+								placeholder="Nombre Comercial">
+						</div>
+						<div class="form-group">
+							<label for="txtKind">Tipo:</label>
+							<input type="text" required class="form-control" name="txtKind" id="txtKind"
+								placeholder="Tipo">
+						</div>
+						<div class="form-group">
+							<label>Departamento</label>
+							<input type="text" class="form-control" placeholder="Ingrese departamento"
+								name="txtDepartment" id="txtDepartment" />
+						</div>
+						<div class="form-group">
+							<label>Provincia</label>
+							<input type="text" class="form-control" name="txtProvince" id="txtProvince"
+								placeholder="Ingrese provincia" />
+						</div>
+						<div class="form-group">
+							<label>Distrito</label>
+							<input type="text" class="form-control" name="txtDistrict" id="txtDistrict"
+								placeholder="Ingrese distrito" />
+						</div>
+						<div class="form-group">
+							<label>Dirección</label>
+							<input type="text" class="form-control" name="txtDirection" id="txtDirection"
+								placeholder="Ingrese direccion" />
+						</div>
+						<div class="form-group">
+							<label>Teléfono</label>
+							<input type="text" class="form-control" name="txtPhone" id="txtPhone"
+								placeholder="Ingrese telefono" />
+						</div>
+						<div class="form-group">
+							<label>Correo</label>
+							<input type="text" class="form-control" name="txtEmail" id="txtEmail"
+								placeholder="Ingrese correo" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" id="btn-cancel" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+							<button type="button" id="btn-submit" class="btn btn-primary">Guardar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>¿Estás seguro de que deseas eliminar este registro?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="btn-canceldelete" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-danger" id="btn-confirm-delete">Eliminar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-7 shift">
+
+		<table class="table" id="tbSuppliers">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>RUC</th>
+					<th>Nombre Empresarial</th>
+					<th>Nombre Comercial</th>
+					<th>Tipo</th>
+					<th>Dirección</th>
+					<th>Teléfono</th>
+					<th>Correo</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+
+		</table>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+			id="btnNew">Nuevo</button>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			var modal = $("#myModal");
+			var deleteModal = $("#deleteModal");
+			var deletesupplierid;
+			var supplierid = 0;
+			//Click para mostrar datos del registro
+			$("#btnNew").click(function () {
+				$("#myModal").modal('show');
+			});
+            
+            //Click para mostrar información del registro
+			$('#tbSuppliers tbody').on('click', '#btn-edit', function () {
+				$("#myModal").modal("show");
+				var SupplierId = $(this).data('supplier-id'); // Obtener el código del suppliero del atributo de datos
+				supplierid = SupplierId
+				// Llama a la función 'edit' pasando el código del suppliere
+				view(supplierid);
+			});
+
+			// Capturar el evento click en los botones de eliminar
+			$('#tbSuppliers tbody').on('click', '#btn-delete', function () {
+				$("#deleteModal").modal("show");
+				deletesupplierid = $(this).data('supplier-id'); // Obtener el código del suppliero del atributo de datos
+			});
+			
+			// Capturar el evento click en el botón de confirmación de eliminación
+			$('#btn-confirm-delete').click(function () {
+				// Realizar la eliminación del registro utilizando AJAX
+				$.ajax({
+					url: '/supplier/delete/' + deletesupplierid,
+					type: 'DELETE',
+					success: function (response) {
+						// Manejar la respuesta exitosa de la API
+						console.log('Registro eliminado exitosamente');
+
+						// Aquí puedes realizar alguna acción adicional, como actualizar la tabla o mostrar un mensaje de éxito
+
+						// Luego de eliminar el registro, puedes cerrar el modal
+						$('#deleteModal').modal('hide');
+					},
+					error: function (xhr, status, error) {
+						// Manejar el error en caso de que la API no responda correctamente
+						console.log('Error al eliminar el registro:', error);
+
+						// Aquí puedes mostrar un mensaje de error al usuario o realizar alguna otra acción según tus necesidades
+					}
+				});
+				deleteModal.modal("hide");
+				setTimeout(function () {
+					location.reload();
+				}, 300);
+			});
+			
+			// Cerrar el modal al hacer clic en la "x" del modal
+			modal.on("click", ".close", function () {
+				modal.modal("hide");
+				supplierid = 0;
+				$('#txtRUC').val("");
+				$('#txtBusinessName').val("");
+				$('#txtTradeName').val("");
+				$('#txtKind').val("");
+				$('#txtDepartment').val("");
+				$('#txtProvince').val("");
+				$('#txtDistrict').val("");
+				$('#txtDirection').val("");
+				$('#txtPhone').val("");
+				$('#txtEmail').val("");
+			});
+			deleteModal.on("click", ".close", function () {
+				deleteModal.modal("hide");
+			});
+			
+			//Cerral el modal al hacer click en cancelar
+			modal.on("click", "#btn-cancel", function () {
+				modal.modal("hide");
+				code = 0;
+				$('#txtDescription').val("");
+				$('#txtCategory').val("");
+				$('#txtAmount').val("");
+				$('#txtPurchasePrice').val("");
+				$('#txtSalePrice').val("");
+			});
+			deleteModal.on("click", "#btn-canceldelete", function () {
+				deleteModal.modal("hide");
+			});
+			
+			// Cerrar el modal al hacer clic fuera del modal
+			$(window).on("click", function (event) {
+				if (event.target === modal[0]) {
+					modal.modal("hide"); supplierid = 0;
+					$('#txtRUC').val("");
+					$('#txtBusinessName').val("");
+					$('#txtTradeName').val("");
+					$('#txtKind').val("");
+					$('#txtDepartment').val("");
+					$('#txtProvince').val("");
+					$('#txtDistrict').val("");
+					$('#txtDirection').val("");
+					$('#txtPhone').val("");
+					$('#txtEmail').val("");
+				}
+
+			});
+			$(window).on("click", function (event) {
+				if (event.target === deleteModal[0]) {
+					deleteModal.modal("hide");
+				}
+			});
+
+            //Llamar a la funcion showData()
+			showData();
+
+            //Click boton guardar
+			$('#btn-submit').click(function () {
+				event.preventDefault(); // Evita que el formulario se envíe por defecto
+				// Obtener los valores del formulario
+				var RUC = $('#txtRUC').val();
+				var BusinessName = $('#txtBusinessName').val();
+				var TradeName = $('#txtTradeName').val();
+				var Kind = $('#txtKind').val();
+				var Department = $('#txtDepartment').val();
+				var Province = $('#txtProvince').val();
+				var District = $('#txtDistrict').val();
+				var Direction = $('#txtDirection').val();
+				var Phone = $('#txtPhone').val();
+				var Email = $('#txtEmail').val();
+
+				// Crear el objeto de datos a enviar
+				var dataform = {
+					RUC: RUC,
+					BusinessName: BusinessName,
+					TradeName: TradeName,
+					Kind: Kind,
+					Department: Department,
+					Province: Province,
+					District: District,
+					Direction: Direction,
+					Phone: Phone,
+					Email: Email,
+					image: "dsadas"
+				};
+
+
+
+				if (supplierid == 0) {
+					// Configurar la solicitud AJAX
+					$.ajax({
+						url: '/supplier/save',
+						type: 'POST',
+						contentType: "application/json",
+						data: JSON.stringify(dataform),
+						success: function (response) {
+							// Manejar la respuesta del servidor
+							console.log(response);
+						},
+						error: function (xhr, status, error) {
+							// Manejar el error de la solicitud
+							console.log(error);
+						}
+
+					});
+
+				} else {
+					// Configurar la solicitud AJAX
+					$.ajax({
+						url: '/supplier/save/' + supplierid,
+						type: 'PUT',
+						contentType: "application/json",
+						data: JSON.stringify(dataform),
+						success: function (response) {
+							// Manejar la respuesta del servidor
+							console.log(response);
+						},
+						error: function (xhr, status, error) {
+							// Manejar el error de la solicitud
+							console.log(error);
+						}
+					});
+				}
+
+				modal.modal("hide");
+				setTimeout(function () {
+					location.reload();
+				}, 300);
+
+			});
+			
+			// Adjunta un controlador de eventos 'click' al botón de edición
+			$('#btn-edit').click(function () {
+				var supplierid = $(this).data('supplier-id'); // Obtiene el valor de 'product-code' del botón
+				// Llama a la función 'edit' pasando el valor de 'productCode'
+				view(supplierid);
+			});
+			$(".btnn").click(function () {
+				$(".col-md-7").toggleClass("shift");
+				$(".table").toggleClass("shift");
+			});
+		});
+		
+		//Función para visualizar información del registro
+		function view(supplierid) {
+			console.log(supplierid)
+			$.getJSON('/supplier/' + supplierid, function (supplier) {
+				// Asigna los valores de los datos a los campos del formulario
+				$('#txtRUC').val(supplier.RUC);
+				$('#txtBusinessName').val(supplier.BusinessName);
+				$('#txtTradeName').val(supplier.TradeName);
+				$('#txtKind').val(supplier.Kind);
+				$('#txtDepartment').val(supplier.Department);
+				$('#txtProvince').val(supplier.Province);
+				$('#txtDistrict').val(supplier.District);
+				$('#txtDirection').val(supplier.Direction);
+				$('#txtPhone').val(supplier.Phone);
+				$('#txtEmail').val(supplier.Email);
+			});
+		}
+		
+		//Función para limpiar la tabla
+		function clearData() {
+			$("#tbSuppliers tbody").empty();
+		}
+		
+		//Función para listar todos los registros
+		function showData() {
+			// Realiza la petición AJAX para obtener los elementos de la API
+			$.getJSON('/supplier/list', function (data) {
+				// Itera sobre los elementos y crea las filas de la tabla
+				$.each(data, function (index, supplier) {
+					console.log(supplier.SupplierId)
+					var fila = '<tr>' +
+						'<td>' + supplier.SupplierId + '</td>' +
+						'<td>' + supplier.RUC + '</td>' +
+						'<td>' + supplier.BusinessName + '</td>' +
+						'<td>' + supplier.TradeName + '</td>' +
+						'<td>' + supplier.Kind + '</td>' +
+						'<td>' + supplier.Direction + '</td>' +
+						'<td>' + supplier.Phone + '</td>' +
+						'<td>' + supplier.Email + '</td>' +
+						'<td class="text-center">' +
+						'<button type="button" id="btn-edit" class="btn btn-warning" data-toggle="modal" data-target="#myModal" data-supplier-id="' + supplier.SupplierId + '">' +
+						'<i class="fas fa-edit"></i>' +
+						'</button>' +
+						'<button type="button" id="btn-delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-supplier-id="' + supplier.SupplierId + '">' +
+						'<i class="fas fa-trash"></i>' +
+						'</button>' +
+						'</td>' +
+						'</tr>';
+
+					// Agrega la fila a la tabla
+					$('#tbSuppliers tbody').append(fila);
+				});
+
+			});
+		}
+	</script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+</body>
+
+</html>
